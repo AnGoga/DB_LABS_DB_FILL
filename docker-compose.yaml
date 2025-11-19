@@ -1,0 +1,45 @@
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: app
+      PGDATA: /var/lib/postgresql/data
+      TZ: Europe/Berlin
+    ports:
+      - "5432:5432"
+    volumes:
+      # Монтируем родительскую папку, а не /data
+      - ./data/postgres:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - dbnet
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: pgadmin
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+      TZ: Europe/Berlin
+    ports:
+      - "5050:80"
+    volumes:
+      - ./data/pgadmin:/var/lib/pgadmin
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - dbnet
+
+networks:
+  dbnet:
+    driver: bridge
