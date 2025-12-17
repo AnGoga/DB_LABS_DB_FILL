@@ -26,7 +26,15 @@ class UserAnswerDataGenerator(
         println("Создание ответов на вопросы...")
 
         val tryIds = jdbcTemplate.queryForList(
-            "SELECT id FROM user_try ORDER BY id LIMIT 5000",
+//            "SELECT id FROM user_try ORDER BY id LIMIT 5000",
+            """
+              SELECT ut.id
+              FROM user_try ut
+              LEFT JOIN user_try_question_answer utqa ON ut.id = utqa.user_try_id
+              WHERE utqa.id IS NULL
+              ORDER BY ut.id
+              LIMIT 5000
+              """,
             Int::class.java
         )
 
@@ -36,7 +44,7 @@ class UserAnswerDataGenerator(
         val correctVariants = preloadCorrectVariants()
 
         var answeredCount = 0
-        val batchSize = 1000
+        val batchSize = 2000
         val answerBatch = mutableListOf<UserTryQuestionAnswer>()
         val freeAnsBatch = mutableListOf<Pair<Int, UserFreeAns>>()
         val chooseAnsBatch = mutableListOf<Pair<Int, UserChooseAns>>()

@@ -99,7 +99,7 @@ class ExamDataGenerator(
                 exam = exam,
                 questionText = generateQuestionText(),
                 type = QuestionType.ChooseAns,
-                score = Random.nextDouble(0.5, 10.0),
+                score = Random.nextInt(1, 10).toDouble(),
                 createdAt = OffsetDateTime.now(),
                 updatedAt = OffsetDateTime.now()
             )
@@ -136,7 +136,7 @@ class ExamDataGenerator(
                 exam = exam,
                 questionText = generateQuestionText(),
                 type = QuestionType.FreeAns,
-                score = Random.nextDouble(1.0, 15.0),
+                score = Random.nextInt(1, 15).toDouble(),
                 createdAt = OffsetDateTime.now(),
                 updatedAt = OffsetDateTime.now()
             )
@@ -195,7 +195,7 @@ class ExamDataGenerator(
                 exam = exam,
                 questionText = generateMentorQuestionText(),
                 type = QuestionType.MentorFreeAns,
-                score = Random.nextDouble(5.0, 20.0),
+                score = Random.nextInt(1, 20).toDouble(),
                 createdAt = OffsetDateTime.now(),
                 updatedAt = OffsetDateTime.now()
             )

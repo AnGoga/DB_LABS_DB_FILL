@@ -35,6 +35,8 @@ CREATE TABLE IF NOT EXISTS group_users
     FOREIGN KEY (group_id) REFERENCES student_group (id),
     FOREIGN KEY (user_id) REFERENCES users (id)
 );
+
+
 CREATE TABLE IF NOT EXISTS exam
 (
     id          SERIAL PRIMARY KEY,
@@ -43,6 +45,7 @@ CREATE TABLE IF NOT EXISTS exam
     created_at  TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     updated_at  TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
+
 CREATE TABLE IF NOT EXISTS group_exam
 (
     id         SERIAL PRIMARY KEY,
@@ -173,9 +176,7 @@ CREATE TABLE IF NOT EXISTS mentor_reply
         UNIQUE (user_try_question_answer_id)
 );
 
--- ============================================================================
--- ИНДЕКСЫ ДЛЯ ОПТИМИЗАЦИИ ЗАПРОСОВ
--- ============================================================================
+
 
 -- users
 CREATE INDEX IF NOT EXISTS idx_users_role ON users(role);
